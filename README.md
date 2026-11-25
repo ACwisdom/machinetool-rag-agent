@@ -59,6 +59,96 @@ program/
 
 ---
 
+## Neo4j 机床故障知识图谱
+
+B 阶段使用 Neo4j 将设备、部件、故障、症状、解决方案和维修工单串联起来。以下三张 Neo4j Browser 截图展示了同一批样例数据的节点查询、关系可视化和关系统计。
+
+### 查看节点
+
+```cypher
+MATCH (n)
+RETURN n
+LIMIT 25
+```
+
+查询返回 **13 个节点**，包括 `Machine`（设备）、`Part`（部件）、`Fault`（故障）、`Symptom`（症状）、`Solution`（解决方案）和 `WorkOrder`（工单）六种标签。结果面板中的 `*` 汇总全部节点。当前查询只返回节点，因此图中没有连线。若左侧统计仍为 0，可点击 **Database information** 面板底部的刷新图标。该面板还会列出 `name`、`id` 等属性键。
+
+![Neo4j Browser 节点查询结果](docs/assets/neo4j/nodes.png)
+
+### 查看节点与关系
+
+```cypher
+MATCH (n)-[r]->(m)
+RETURN n, r, m
+LIMIT 25
+```
+
+图视图显示 **13 个节点和 13 条关系**。两组子图都能沿设备和部件找到故障，再查看症状、解决方案与维修工单。可在 Neo4j Browser 中调整节点大小、颜色和关系线条样式，便于区分不同类型。
+
+![Neo4j Browser 机床故障知识图谱](docs/assets/neo4j/graph.png)
+
+### 统计关系类型
+
+```cypher
+MATCH ()-[r]->()
+RETURN type(r) AS relationship_type, count(r) AS count
+ORDER BY count DESC
+```
+
+![Neo4j Browser 关系类型统计结果](docs/assets/neo4j/relationships.png)
+
+| 关系 | 数量 | 样例含义 |
+| --- | ---: | --- |
+| 包含 | 3 | 设备包含部件，部件也可以包含下级部件 |
+| 发生 | 2 | 部件发生故障 |
+| 表现为 | 2 | 故障表现为症状 |
+| 对应 | 2 | 故障对应解决方案 |
+| 关联故障 | 2 | 工单关联故障 |
+| 采用方案 | 2 | 工单采用解决方案 |
+
+### 进一步查询
+
+查看设备及其相邻节点。
+
+```cypher
+MATCH (n:Machine)-[r]-(m)
+RETURN n, r, m
+```
+
+沿故障节点的出边查看一到三跳的路径。
+
+```cypher
+MATCH path = (f:Fault)-[*1..3]->()
+RETURN path
+```
+
+查看设备和部件的包含关系。
+
+```cypher
+MATCH (a)-[:包含]->(b)
+RETURN a.name AS parent_name, b.name AS child_name
+```
+
+查看工单关联的故障。
+
+```cypher
+MATCH (w:WorkOrder)-[:关联故障]->(f:Fault)
+RETURN w.name AS work_order, f.name AS fault
+```
+
+按标签统计节点数量。
+
+```cypher
+MATCH (n)
+UNWIND labels(n) AS node_label
+RETURN node_label, count(*) AS count
+ORDER BY count DESC
+```
+
+[查看原始运行记录](B_Data%20Preparation%20and%20Knowledge%20Base%20Construction/%E6%94%B6%E9%9B%86%E4%B8%8E%E6%95%B4%E7%90%86%E6%95%B0%E6%8D%AE/neo4j%E7%BB%93%E6%9E%9C.docx)
+
+---
+
 ## 环境要求
 
 - Python 3.10+
