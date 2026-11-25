@@ -1,0 +1,5 @@
+[
+  {"question": "主轴振动可能是什么原因？", "expected_keywords": ["轴承", "联轴器", "振动"]},
+  {"question": "主轴有异响怎么排查？", "expected_keywords": ["润滑", "轴承", "异响"]},
+  {"question": "主轴高速振动加异响怎么办？", "expected_keywords": ["轴承", "润滑", "紧固"]}
+]

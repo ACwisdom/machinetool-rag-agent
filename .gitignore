@@ -1,0 +1,59 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment variables
+.env
+.env.*
+*.env
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# Model weights (download via Hugging Face or local scripts)
+**/models/**/*.bin
+**/models/**/*.safetensors
+**/models/**/*.pt
+**/models/**/*.pth
+**/models/**/*.onnx
+**/models/**/*.ckpt
+**/models/**/*.h5
+**/models/**/*.msgpack
+
+# Vector DB / local data stores
+**/chroma_db*/
+**/.chroma/
+**/faiss_index/
+**/*.faiss
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Node.js
+node_modules/
+
+# Build / dist
+dist/
+build/
+*.egg-info/

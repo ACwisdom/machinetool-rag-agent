@@ -1,0 +1,2 @@
+Synthetic demonstration material for the machine-tool RAG project.
+If the spindle vibrates during operation, stop the machine and consult the maintenance manual. Record the alarm code and contact the maintenance team before resuming operation.
