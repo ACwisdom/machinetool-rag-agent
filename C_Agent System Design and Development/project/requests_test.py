@@ -2,7 +2,7 @@ import os
 
 import requests
 
-API_KEY = os.environ["ARK_API_KEY"]
+API_KEY = os.environ["PPIO_API_KEY"]
 URL = "https://api.ppio.com/openai/v1/chat/completions"
 
 headers = {
